@@ -1,0 +1,186 @@
+<%- include('partials/header'); %>
+
+
+    <% let songs=["_tambourine_shake_higher.mp3" , "B_VOC.mp3" , "DRUMS.mp3" , "HE_HE_VOC.mp3" , "HIGH_VOC.mp3"
+        , "JIBRISH.mp3" , "LEAD_1.mp3" , "UUHO_VOC.mp3" ]; %>
+
+        <div class="container">
+            <h1>Loop Machine</h1>
+            <div class="mainApp">
+                <div class="row">
+                    <div class="col-6">
+                        <% for (let i=0; i < songs.length/2; i++) {%>
+                            <div class="songdiv row">
+                                <div class="col-4" style="margin: auto;">
+                                    <h5>Track Name:</h5>
+                                    <p><strong style="color: black;">
+                                            <%=songs[i].substring(0,songs[i].length-4).replace( /_/g, " " ) %>
+                                        </strong></p>
+                                </div>
+                                <div class="col-8">
+                                    <audio controls id=<%=songs[i]%>>
+                                        <source src=<%=songs[i] %> type="audio/mpeg">
+                                        Your browser does not support the audio tag.
+                                    </audio>
+                                </div>
+                            </div>
+                            <hr>
+                            <% }%>
+                    </div>
+                    <div class="songs col-6">
+                        <% for (let i=songs.length/2; i < songs.length; i++) {%>
+                            <div class="songdiv row">
+                                <div class="col-4" style="margin: auto;">
+                                    <h5>Track Name:</h5>
+                                    <p><strong style="color: black;">
+                                            <%=songs[i].substring(0,songs[i].length-4).replace( /_/g, " " ) %>
+                                        </strong></p>
+                                </div>
+                                <div class="col-8">
+                                    <audio controls id=<%=songs[i]%>>
+                                        <source src=<%=songs[i] %> type="audio/mpeg">
+                                        Your browser does not support the audio tag.
+                                    </audio>
+                                </div>
+                            </div>
+                            <hr>
+                            <% }%>
+                    </div>
+                </div>
+                <div class="panel">
+                    <button class="btn btn-lg btn-success" id="playAll" onclick="playAll()"><i
+                            class="far fa-play-circle"></i> Play All
+                        Tracks</button>
+                    <button class="btn btn-lg btn-warning" id="pauseAll" style="display: none;"
+                        onclick="playAll()">Pause All Tracks</button>
+                    <button class="btn btn-lg btn-warning" id="resumeAll" style="display: none;"
+                        onclick="playAll()">Resume All Tracks</button>
+                    <button class="btn btn-lg btn-primary" id="Loop" onclick="loopAll()"><i class="fas fa-redo"></i>
+                        Loop</button>
+                    <button class="btn btn-lg btn-primary" id="unLoop" style="display: none;"
+                        onclick="loopAll()">UnLoop</button>
+                    <button class="btn btn-lg btn-danger" id="stopAll" onclick="stopAll()"><i
+                            class="far fa-stop-circle"></i> Stop All
+                        Tracks</button>
+                    <button class="btn btn-lg btn-info" id="muteAll" onclick="muteAll()"><i
+                            class="fas fa-volume-mute"></i> Mute All
+                        Tracks</button>
+                    <button class="btn btn-lg btn-info" id="unMuteAll" style="display: none;" onclick="muteAll()"><i
+                            class="fas fa-volume-up"></i> unMute All
+                        Tracks</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <script>
+            let songs = ["_tambourine_shake_higher.mp3", "B_VOC.mp3", "DRUMS.mp3", "HE_HE_VOC.mp3"
+                , "HIGH_VOC.mp3", "JIBRISH.mp3", "LEAD_1.mp3", "UUHO_VOC.mp3"],
+
+                isPaused = false,
+                isPalying = false,
+                playDisplay = document.getElementById("playAll"),
+                pauseDisplay = document.getElementById("pauseAll"),
+                resumeDisplay = document.getElementById("resumeAll");
+
+            // songs.forEach(song => {
+            //     document.getElementById(song).onended = function () {
+            //         document.getElementById(song).load();
+            //         playDisplay.style.display = "inline-block";
+            //         pauseDisplay.style.display = "none";
+            //         resumeDisplay.style.display = "none";
+            //         isPaused = false;
+            //         isPalying = false;
+            //         console.log("returned to playAll");
+
+            //     };
+            // });
+
+            function playAll() {
+                if (!isPaused && !isPalying) {
+                    songs.forEach(song => {
+                        document.getElementById(song).load();
+                        document.getElementById(song).play();
+
+                        document.getElementById(song).onended = function () {
+                            document.getElementById(song).load();
+                            playDisplay.style.display = "inline-block";
+                            pauseDisplay.style.display = "none";
+                            resumeDisplay.style.display = "none";
+                            isPaused = false;
+                            isPalying = false;
+                        }
+                    });
+                    playDisplay.style.display = "none";
+                    pauseDisplay.style.display = "inline-block";
+                    resumeDisplay.style.display = "none";
+                    isPalying = true;
+
+                } else if (isPalying && !isPaused) {
+                    songs.forEach(song => document.getElementById(song).pause());
+                    playDisplay.style.display = "none";
+                    pauseDisplay.style.display = "none";
+                    resumeDisplay.style.display = "inline-block";
+                    isPalying = false;
+                    isPaused = true;
+                } else {
+                    songs.forEach(song => document.getElementById(song).play());
+                    playDisplay.style.display = "none";
+                    pauseDisplay.style.display = "inline-block";
+                    resumeDisplay.style.display = "none";
+                    isPalying = true;
+                    isPaused = false;
+                }
+            }
+            function stopAll() {
+                songs.forEach(song => {
+                    document.getElementById(song).load();
+                    playDisplay.style.display = "inline-block";
+                    pauseDisplay.style.display = "none";
+                    resumeDisplay.style.display = "none";
+                    isPaused = false;
+                    isPalying = false;
+                })
+            }
+            let mute = false;
+            function muteAll() {
+                mute = !mute;
+                songs.forEach(song => {
+                    document.getElementById(song).muted = mute;
+                    if (mute) {
+                        document.getElementById("muteAll").style.display = "none";
+                        document.getElementById("unMuteAll").style.display = "inline-block";
+                    } else {
+                        document.getElementById("muteAll").style.display = "inline-block";
+                        document.getElementById("unMuteAll").style.display = "none";
+                    }
+
+                })
+            }
+
+            let isLoop = false;
+            function loopAll() {
+                let unLoopDisplay = document.getElementById("unLoop");
+                let LoopDisplay = document.getElementById("Loop");
+                isLoop = !isLoop;
+                songs.forEach(song => {
+                    document.getElementById(song).loop = isLoop;
+                })
+                if (isLoop) {
+                    unLoopDisplay.style.display = "inline-block";
+                    LoopDisplay.style.display = "none";
+
+                } else {
+                    unLoopDisplay.style.display = "none";
+                    LoopDisplay.style.display = "inline-block";
+                }
+
+            }
+
+
+
+        </script>
+
+        <%- include('partials/footer'); %>

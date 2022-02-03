@@ -1,0 +1,60 @@
+body {
+    color: green;
+}
+
+nav {
+	background-color: #000033 !important;
+}
+
+
+h2 {
+    padding: 10px;
+    margin: 0px;
+}
+
+h1{
+    text-align: center;
+    margin: 14px 0px;
+    color: black;
+}
+
+.mainApp {
+    margin: 0rem 0rem;
+    text-align: center;
+    background: #ececec;
+    box-shadow: 10px 9px 13px #aaaaaa;
+	    padding: 25px 20px;
+
+}
+
+.panrl .btn{
+    margin: auto;
+    width: auto;
+
+}
+
+p{
+    font-size: 0.8rem;
+
+}
+
+.panel{
+    margin-top: 1rem;
+}
+
+p{
+    margin-bottom: 0rem;
+}
+
+
+#profile-img{
+	    width: 90px;
+    border-radius: 50%;
+
+}
+.navbar {
+	padding: 2px 16px;
+}
+.navbar-brand{
+	color: antiquewhite;
+}
